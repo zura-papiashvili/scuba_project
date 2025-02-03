@@ -65,14 +65,13 @@ def logout_view(request):
 
 @login_required
 def profile(request):
+    user = request.user  # The logged-in user
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=request.user)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect(
-                "profile"
-            )  # Redirect to the profile page after successful update
+            return redirect("profile")  # Redirect to profile page after save
     else:
-        form = ProfileUpdateForm(instance=request.user)
+        form = ProfileUpdateForm(instance=user)
 
     return render(request, "users/profile.html", {"form": form})

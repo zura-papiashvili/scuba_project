@@ -77,6 +77,7 @@ class ProfileUpdateForm(forms.ModelForm):
             "phone_number",
             "address",
             "biography",
+            "profile_picture",
         ]
 
     def __init__(self, *args, **kwargs):
