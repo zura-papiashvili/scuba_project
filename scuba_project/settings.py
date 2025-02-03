@@ -78,6 +78,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "scuba_project.wsgi.application"
 
+# Add your message tags and configurations
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
