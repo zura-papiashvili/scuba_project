@@ -13,8 +13,9 @@ class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     country = CountryField(blank_label="(Select country)", null=True, blank=True)
     profile_picture = models.ImageField(
-        upload_to="profile_pictures/",
+        upload_to="static/profile_pictures/",
         null=True,
+        default="static/images/profile-alt.png",
         blank=True,
         validators=[validate_image_size],
     )

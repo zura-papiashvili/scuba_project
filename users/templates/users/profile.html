@@ -55,11 +55,17 @@
                             <label for="{{ form.biography.id_for_label }}" class="form-label">{{ form.biography.label }}</label>
                             {{ form.biography }}
                         </div>
+                        
+                         {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" class="img-fluid mb-3" style="width: 500px;">
+                        {% endif %}
 
                         <div class="mb-3">
                             <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
                             {{ form.profile_picture }}
                         </div>
+
+                       
 
                         <button type="submit" class="btn btn-primary w-100">Save Changes</button>
                     </form>

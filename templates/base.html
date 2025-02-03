@@ -76,13 +76,21 @@
 
                     <!-- Login / Logout button based on authentication status -->
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'profile' %}">{% trans "My Profile" %}</a>
-                        </li>
+                         <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- Display profile picture if available -->
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                            {% else %}
+                                 <img src="{% static 'images/no_photo.png' %}" alt="Profile Picture" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                            {% endif %}
+                            {{ user.first_name }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
 
                     {% else %}
                         <li class="nav-item">
