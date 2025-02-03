@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from .forms import UserSignupForm, UserLoginForm
+from .forms import ProfileUpdateForm, UserSignupForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from django_countries import countries
 
@@ -61,3 +61,18 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
     return redirect("landing_page")  # Redirect to homepage or another page
+
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                "profile"
+            )  # Redirect to the profile page after successful update
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, "users/profile.html", {"form": form})

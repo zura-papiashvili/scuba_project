@@ -65,3 +65,23 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ("username", "password")
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "address",
+            "biography",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update(
+                {"class": "form-control"}
+            )  # Add Bootstrap classes for styling

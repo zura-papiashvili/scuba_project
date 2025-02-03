@@ -79,6 +79,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'profile' %}">{% trans "My Profile" %}</a>
+                        </li>
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'login' %}">{% trans "Log In" %}</a>
