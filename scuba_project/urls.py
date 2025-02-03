@@ -24,9 +24,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("landing.urls")),
-    path(
-        "set-language/", set_language, name="set_language"
-    ),  # Ensure this URL pattern is present
+    path("set-language/", set_language, name="set_language"),
+    path("users/", include("users.urls")),
 ]
 
 # Add static and media file handling for development

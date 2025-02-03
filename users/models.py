@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .utils import compress_and_optimize_image, validate_image_size
+from django_countries.fields import CountryField
 
 # Create your models here.
 
@@ -10,7 +11,7 @@ from django.db import models
 
 class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
-    country = models.CharField(max_length=100, null=True, blank=True)
+    country = CountryField(blank_label="(Select country)", null=True, blank=True)
     profile_picture = models.ImageField(
         upload_to="profile_pictures/",
         null=True,
@@ -36,7 +37,7 @@ class User(AbstractUser):
         return self.username
 
     def save(self, *args, **kwargs):
-        if self.image:
+        if self.profile_picture:
             # Compress and optimize image before saving
-            self.image = compress_and_optimize_image(self.image)
+            self.profile_picture = compress_and_optimize_image(self.profile_picture)
         super().save(*args, **kwargs)

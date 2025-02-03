@@ -27,13 +27,13 @@ class AboutView(TemplateView):
 
 def contact(request):
     if request.method == "POST":
-        message_name = request.POST["message-name"]
-        message_email = request.POST["message-email"]
-        message = request.POST["message"]
+        message_name = request.POST.get("message-name")
+        message_email = request.POST.get("message-email")
+        message = request.POST.get("message")
 
-        # Create a nicely formatted HTML message
+        # Send the email
         email_message = render_to_string(
-            "email/contact_email.html",  # Create a new template for email content
+            "email/contact_email.html",  # Template for email content
             {
                 "message_name": message_name,
                 "message_email": message_email,
@@ -41,14 +41,21 @@ def contact(request):
             },
         )
 
-        send_mail(
-            f"Message from {message_name}",  # Subject
-            "",  # No plain text message
-            message_email,  # From email
-            [settings.EMAIL_HOST_USER],  # To email
-            html_message=email_message,  # HTML message content
-        )
+        try:
+            send_mail(
+                f"Message from {message_name}",
+                "",  # No plain text message
+                message_email,
+                [settings.EMAIL_HOST_USER],
+                html_message=email_message,
+            )
+            messages.success(request, "Your message has been sent successfully!")
+        except Exception as e:
+            messages.error(request, f"Error sending message: {e}")
+
+        # Print to check if messages are set
+        print(messages.get_messages(request))
 
         return render(request, "landing/contact.html", {"message_name": message_name})
 
-    return render(request, "landing/contact.html", {})
+    return render(request, "landing/contact.html")

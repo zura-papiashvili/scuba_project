@@ -19,11 +19,17 @@
                         </div>
                     {% endif %}
                     
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <p>{% trans "Please correct the errors below." %}</p>
+                        </div>
+                    {% endif %}
+                    
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="message-name" class="form-label">{% trans "Name:" %}</label>
-                            <input type="text" id="message-name" name="message-name" class="form-control {% if form.message_name.errors %}is-invalid{% endif %}" placeholder="{% trans "Your name" %}" required>
+                            <input type="text" id="message-name" name="message-name" class="form-control {% if form.message_name.errors %}is-invalid{% endif %}" value="{{ form.message_name.value }}" placeholder="{% trans "Your name" %}" required>
                             {% if form.message_name.errors %}
                                 <div class="invalid-feedback">
                                     {% for error in form.message_name.errors %}
@@ -34,7 +40,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="message-email" class="form-label">{% trans "Email:" %}</label>
-                            <input type="email" id="message-email" name="message-email" class="form-control {% if form.message_email.errors %}is-invalid{% endif %}" placeholder="{% trans "yourname@example.com" %}" required>
+                            <input type="email" id="message-email" name="message-email" class="form-control {% if form.message_email.errors %}is-invalid{% endif %}" value="{{ form.message_email.value }}" placeholder="{% trans "yourname@example.com" %}" required>
                             {% if form.message_email.errors %}
                                 <div class="invalid-feedback">
                                     {% for error in form.message_email.errors %}
@@ -45,7 +51,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">{% trans "Message:" %}</label>
-                            <textarea id="message" name="message" class="form-control {% if form.message.errors %}is-invalid{% endif %}" placeholder="{% trans "Your message" %}" rows="4" required></textarea>
+                            <textarea id="message" name="message" class="form-control {% if form.message.errors %}is-invalid{% endif %}" value="{{ form.message.value }}" placeholder="{% trans "Your message" %}" rows="4" required></textarea>
                             {% if form.message.errors %}
                                 <div class="invalid-feedback">
                                     {% for error in form.message.errors %}
@@ -55,7 +61,7 @@
                             {% endif %}
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg" style="background-color: #b08e19;">{% trans "Send Message" %}</button>
+                            <button type="submit" class="btn btn-info btn-lg" style="background-color: #b08e19;">{% trans "Send Message" %}</button>
                         </div>
                     </form>
                 </div>
@@ -63,5 +69,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
