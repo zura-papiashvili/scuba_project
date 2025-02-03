@@ -167,6 +167,8 @@ if ENVIRONMENT == "DEVELOPMENT":
     STATIC_URL = "/static/"
     STATICFILES_DIRS = [
         BASE_DIR / "static",
+        BASE_DIR / "landing/static",
+        BASE_DIR / "users/static",
     ]
     STATIC_ROOT = BASE_DIR / "staticfiles"
 

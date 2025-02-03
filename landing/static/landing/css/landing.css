@@ -1,0 +1,25 @@
+/* landing/static/landing/css/landing.css */
+
+/* Parallax Section */
+.parallax {
+    position: relative;
+    background-image: url('/static/landing/images/cover.webp');
+    height: 100vh;
+    /* Full viewport height */
+    background-size: cover;
+    background-position: center;
+    color: rgb(103, 32, 32);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.parallax .content {
+    text-align: center;
+    z-index: 1;
+    /* Ensure content is above the parallax background */
+}
+
+section {
+    padding: 20px;
+}
