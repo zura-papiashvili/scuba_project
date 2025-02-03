@@ -16,8 +16,20 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.i18n import set_language
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("landing.urls")),
+    path(
+        "set-language/", set_language, name="set_language"
+    ),  # Ensure this URL pattern is present
 ]
+
+# Add static and media file handling for development
+if settings.ENVIRONMENT == "DEVELOPMENT":
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

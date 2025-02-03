@@ -1,0 +1,29 @@
+<!-- landing/templates/landing/landing_page.html -->
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}Welcome to Our Website{% endblock %}
+
+
+{% block content %}
+    <section>
+        <h1>Welcome to Our Website!</h1>
+        <p>Check out our latest content:</p>
+        
+        <h2>Recent Blog Posts</h2>
+        <ul>
+            {% for post in recent_blog_posts %}
+                <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>Featured Products</h2>
+        <ul>
+            {% for product in featured_products %}
+                <li>{{ product.name }} - ${{ product.price }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

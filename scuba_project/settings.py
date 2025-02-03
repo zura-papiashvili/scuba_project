@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "modeltranslation",
     "users",
+    "storages",
+    "landing",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +61,9 @@ ROOT_URLCONF = "scuba_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -72,17 +77,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "scuba_project.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 
 # Password validation
@@ -106,8 +100,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
+MODELTRANSLATION_LANGUAGES = ("en", "es")
+LANGUAGE_CODE = "en"  # Default language
 LANGUAGES = [
     ("en", _("English")),
     ("es", _("Spanish")),
@@ -115,7 +112,7 @@ LANGUAGES = [
 ]
 
 TIME_ZONE = "UTC"
-
+USE_L10N = True
 USE_I18N = True
 
 USE_TZ = True
@@ -130,3 +127,97 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Email configuration
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+
+
+# Session configuration
+
+SESSION_COOKIE_AGE = 3600000
+
+
+# Database configuration
+
+DATABASES = {
+    "default": {
+        "ENGINE": config("DB_ENGINE"),
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT"),
+    }
+}
+
+ENVIRONMENT = config("ENVIRONMENT", default="DEVELOPMENT")
+
+# Static and Media files configuration
+if ENVIRONMENT == "DEVELOPMENT":
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+    ]
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+else:
+    # For Production, use AWS S3 for static and media files
+    STATIC_URL = f"https://{config('AWS_STORAGE_BUCKET_NAME')}.s3.amazonaws.com/static/"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    STATIC_ROOT = (
+        BASE_DIR / "staticfiles"
+    )  # Collect static files to this location during `collectstatic`
+
+    MEDIA_URL = f"https://{config('AWS_STORAGE_BUCKET_NAME')}.s3.amazonaws.com/media/"
+    MEDIA_ROOT = BASE_DIR / "media"  # Can be used to store files locally if needed
+
+    # AWS S3 settings
+    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+    AWS_S3_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+    STATICFILES_LOCATION = "static"
+    MEDIAFILES_LOCATION = "media"
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "location": MEDIAFILES_LOCATION,
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+            "OPTIONS": {
+                "location": STATICFILES_LOCATION,
+            },
+        },
+    }
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# AWS S3 settings for production
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+AWS_S3_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_S3_FILE_OVERWRITE = False

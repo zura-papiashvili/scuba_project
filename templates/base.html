@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container-fluid">
             <!-- Logo and Site Name -->
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'landing_page' %}">
                 <img src="{% static 'images/logo.png' %}" alt="Logo" class="me-2 rounded-circle" style="width: 50px; height: 50px;">
                 <span class="fw-bold">{% trans "Smart Route" %}</span>
             </a>
@@ -44,20 +44,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'home' %}">{% trans "Home" %}</a>
+                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'landing_page' %}">{% trans "Home" %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'about' %}">{% trans "About" %}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'events' %}">{% trans "Events" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'restricted' %}">{% trans "For Members" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'posts' %}">{% trans "Videos" %}</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
                     </li>
@@ -67,10 +59,25 @@
                                 🌍 {% trans "Language" %}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                <li><a class="dropdown-item" href="{% url 'switch_language' 'en' %}">🇺🇸 {% trans "English" %}</a></li>
-                                <li><a class="dropdown-item" href="{% url 'switch_language' 'es' %}">🇪🇸 {% trans "Spanish" %}</a></li>
-                                <li><a class="dropdown-item" href="{% url 'switch_language' 'ka' %}">🇬🇪 {% trans "Georgian" %}</a></li>
-                            </ul>
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="language" value="en">
+                                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 5px 10px;">
+                                        🇺🇸 {% trans "English" %}
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="language" value="es">
+                                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 5px 10px;">
+                                        🇪🇸 {% trans "Spanish" %}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                         </div>
                     </li>
                     
