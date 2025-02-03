@@ -1,0 +1,126 @@
+:root {
+    /* Light Mode Colors */
+    --background-light: #e4e0c7;
+    --text-light: #212529;
+    --navbar-light-bg: #cacfb9;
+    --footer-light-bg: #dde4b7;
+
+    /* Dark Mode Colors */
+    --background-dark: #312929;
+    --text-dark: #e0e0e0;
+    --navbar-dark-bg: #333333;
+    --footer-dark-bg: #4b4646;
+    --hover-bg-dark: #5a4e4e;
+}
+
+/* Default Light Mode */
+body {
+    background-color: var(--background-light);
+    color: var(--text-light);
+}
+
+.navbar-light {
+    background-color: var(--navbar-light-bg);
+}
+
+footer {
+    background-color: var(--footer-light-bg);
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+.navbar-light.dark-mode {
+    background-color: var(--navbar-dark-bg);
+}
+
+footer.dark-mode {
+    background-color: var(--footer-dark-bg);
+}
+
+.navbar-dark.bg-dark {
+    background-color: var(--navbar-dark-bg) !important;
+    /* Darker navbar background for dark mode */
+}
+
+footer.bg-light {
+    background-color: var(--navbar-dark-bg) !important;
+    /* Dark footer for dark mode */
+    color: var(--text-dark);
+}
+
+#theme-toggle:hover {
+    background-color: var(--hover-bg-dark);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav .nav-link {
+        font-size: 16px;
+        /* Smaller font size on mobile */
+    }
+}
+
+/* Initially, make the header visible */
+header {
+    opacity: 1;
+    transition: opacity 1s ease-in-out, top 1s ease-in-out;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+/* When header is hidden, adjust opacity and move it off screen */
+header.hidden {
+    opacity: 0;
+    top: -60px;
+    /* Adjust this value based on the header height */
+}
+
+
+/* Custom Link Styles */
+.custom-link {
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.custom-link:hover {
+    color: #f39c12;
+    /* Gold color on hover */
+    text-decoration: none;
+}
+
+/* Active link styling */
+.nav-item .active.custom-link {
+    color: #f39c12;
+    font-weight: 700;
+}
+
+/* Underline on hover */
+.custom-link::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #f39c12;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.custom-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
