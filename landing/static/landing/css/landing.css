@@ -1,25 +1,49 @@
-/* landing/static/landing/css/landing.css */
-
-/* Parallax Section */
-.parallax {
+/* General Parallax Styling */
+.bgimg-1,
+.bgimg-2,
+.bgimg-3 {
     position: relative;
-    background-image: url('/static/landing/images/cover.webp');
-    height: 100vh;
-    /* Full viewport height */
-    background-size: cover;
+    opacity: 0.85;
+    /* Adjust transparency for better readability */
     background-position: center;
-    color: rgb(103, 32, 32);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.parallax .content {
-    text-align: center;
-    z-index: 1;
-    /* Ensure content is above the parallax background */
+/* Parallax Effect for Desktop */
+@media (min-width: 100px) {
+
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-3 {
+        background-attachment: fixed;
+    }
 }
 
-section {
-    padding: 20px;
+
+
+/* Specific Background Images */
+.bgimg-1 {
+    background-image: url('/static/landing/images/cover.webp');
+    min-height: 100vh;
+    /* Full viewport height */
+}
+
+.bgimg-2 {
+    background-image: url('/static/landing/images/under-cover.avif');
+    min-height: 600px;
+}
+
+.bgimg-3 {
+    background-image: url('/static/landing/images/bg-3.avif');
+    min-height: 600px;
+}
+
+/* General Styling */
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font: 400 15px / 1.8 "Lato", sans-serif;
+    color: #777;
 }

@@ -6,29 +6,20 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'landing/css/landing.css' %}">
-
-
-<script>
-    // Add parallax effect on scroll
-    window.addEventListener('scroll', function() {
-        const parallax = document.querySelector('.parallax');
-        const scrollPosition = window.scrollY;  // Get the scroll position
-
-        // Adjust the background position based on scroll position
-        parallax.style.backgroundPosition = 'center ' + (scrollPosition * 0.5) + 'px';  // 0.5 is the speed factor
-    });
-</script>
+    <script src="{% static 'landing/js/landing.js' %}"></script>
 
     <!-- Parallax Section -->
-    <section class="parallax">
+    <section class="bgimg-1">
         <div class="content">
-            <h1>Welcome to Our Website!</h1>
-            <p>Check out our latest content:</p>
+            <h1>DeepBlue Dive Center</h1>
+            <p>Plunge into the Adventure of a Lifetime</p>
         </div>
     </section>
 
+
+
     <!-- Content Sections Below -->
-    <section>
+    <section class="bgimg-2">
         <h2>Recent Blog Posts</h2>
         <ul>
             {% for post in recent_blog_posts %}
@@ -42,5 +33,31 @@
                 <li>{{ product.name }} - ${{ product.price }}</li>
             {% endfor %}
         </ul>
+    </section>
+
+    <!-- Content Sections Below -->
+    <section class="bgimg-3">
+        <h2>Recent Blog Posts</h2>
+        <ul>
+            {% for post in recent_blog_posts %}
+                <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>Featured Products</h2>
+        <ul>
+            {% for product in featured_products %}
+                <li>{{ product.name }} - ${{ product.price }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
+       <!-- Parallax Section -->
+    <section class="bgimg-1">
+        <div class="content">
+            <h1>DeepBlue Dive Center</h1>
+            <p>Plunge into the Adventure of a Lifetime</p>
+        </div>
     </section>
 {% endblock %}
