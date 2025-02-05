@@ -146,7 +146,7 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 # Session configuration
 
 SESSION_COOKIE_AGE = 3600000
-
+AUTH_USER_MODEL = "users.User"
 
 # Database configuration
 
