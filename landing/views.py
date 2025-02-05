@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.shortcuts import render
+from django.http import JsonResponse
 
 
 from django.core.mail import send_mail
@@ -59,3 +60,8 @@ def contact(request):
         return render(request, "landing/contact.html", {"message_name": message_name})
 
     return render(request, "landing/contact.html")
+
+
+def keep_warm(request):
+    """Simple endpoint to keep the serverless function warm"""
+    return JsonResponse({"status": "OK", "message": "Server is warm!"})
