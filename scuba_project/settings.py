@@ -177,14 +177,18 @@ if ENVIRONMENT == "DEVELOPMENT":
     MEDIA_ROOT = BASE_DIR / "media"
 else:
     # For Production, use AWS S3 for static and media files
-    STATIC_URL = f"https://{config('AWS_STORAGE_BUCKET_NAME')}.s3.amazonaws.com/static/"
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    STATIC_URL = "static/"
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+        BASE_DIR / "landing/static",
+        BASE_DIR / "users/static",
+    ]
     STATIC_ROOT = (
         BASE_DIR / "staticfiles"
     )  # Collect static files to this location during `collectstatic`
 
-    MEDIA_URL = f"https://{config('AWS_STORAGE_BUCKET_NAME')}.s3.amazonaws.com/media/"
     MEDIA_ROOT = BASE_DIR / "media"  # Can be used to store files locally if needed
+    MEDIA_URL = "/media/"
 
     # AWS S3 settings
     AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
@@ -192,7 +196,9 @@ else:
     AWS_S3_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
     AWS_S3_FILE_OVERWRITE = False
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
     STATICFILES_LOCATION = "static"
     MEDIAFILES_LOCATION = "media"
