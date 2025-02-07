@@ -6,6 +6,9 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.http import JsonResponse
+from users.models import User
+from trips.models import DivingTrip as Trip, Location
+from courses.models import Course
 
 
 from django.core.mail import send_mail
@@ -15,15 +18,30 @@ from django.core.mail import send_mail
 
 class LandingPageView(TemplateView):
     template_name = "landing/landing_page.html"
+    trips = Trip.objects.all()[:3]
+    locations = Location.objects.all()[:3]
+    courses = Course.objects.all()[:3]
+    instructors = User.objects.filter(groups__name="Instructor")[:3]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["trips"] = self.trips
+        context["locations"] = self.locations
+        context["courses"] = self.courses
+        context["instructors"] = self.instructors
+
         # Fetch data from other apps' models and add to context
         return context
 
 
 class AboutView(TemplateView):
+    instructors = User.objects.filter(groups__name="Instructor")
     template_name = "landing/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["instructors"] = self.instructors
+        return context
 
 
 def contact(request):

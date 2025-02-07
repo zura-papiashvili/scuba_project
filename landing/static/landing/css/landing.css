@@ -47,3 +47,46 @@ html {
     font: 400 15px / 1.8 "Lato", sans-serif;
     color: #777;
 }
+
+.content-1 {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate(-1%, -50%);
+    text-align: start;
+    color: white;
+}
+
+.content-1 h1 {
+    font-size: 3em;
+    font-weight: 1000;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: rgb(251, 255, 0);
+
+}
+
+.content-1 p {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: rgb(251, 255, 0);
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item:hover .carousel-caption-container {
+    opacity: 1 !important;
+}
+
+.carousel-caption-container {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+body {
+    overflow-x: hidden;
+}

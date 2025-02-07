@@ -3,6 +3,29 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
-    <h1>About Us</h1>
-    <p>This is the about page where we tell visitors about our company and mission.</p>
+<br>
+<br>
+    <div class="container mt-5">
+        <h1>About Us</h1>
+        <p>DeepBlue Dive Center is a premier diving center located in the heart of the Caribbean. We offer a wide range of diving courses and excursions for divers of all levels. Our team of experienced instructors is dedicated to providing a safe and enjoyable diving experience for all our customers.</p>
+
+        <h2>Our Instructors</h2>
+        <div class="row">
+            {% for instructor in instructors %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ instructor.profile_picture.url }}" class="card-img-top" alt="{{ instructor.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ instructor }}</h5>
+                            <p class="card-text"><strong>Phone:</strong> {{ instructor.phone_number }}</p>
+                            <p class="card-text"><strong>Email:</strong> {{ instructor.email }}</p>
+                            <p class="card-text"><strong>Address:</strong> {{ instructor.address }}</p>
+                            <p class="card-text"><strong>Country:</strong> {{ instructor.country }}</p>
+                            <p class="card-text"><strong>Bio:</strong> {{ instructor.biography }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
