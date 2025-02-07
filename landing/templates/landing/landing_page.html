@@ -6,23 +6,36 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'landing/css/landing.css' %}">
-    <script src="{% static 'landing/js/landing.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  
     <!-- Parallax Section -->
     <section class="bgimg-1">
-        <div class="content-1">
-            <h1>DeepBlue Dive Center</h1>
-            <p>Plunge into the Adventure of a Lifetime</p>
-        </div>
+       <div class="content-1" 
+    style="text-align: center; color: white; padding: 10vh 5%; 
+           background: rgba(0, 0, 0, 0.5);">
+
+    <h1 data-aos="fade-up" 
+        style="font-size: 3rem; font-weight: bold; 
+               text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);">
+        DeepBlue Dive Center
+    </h1>
+
+    <p data-aos="fade-up" 
+        style="font-size: 1.5rem; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);">
+        Plunge into the Adventure of a Lifetime
+    </p>
+</div>
+
+
+
     </section>
-
-
 
     <!-- Content Sections Below -->
     <section class="bgimg-2">
         <h2 class="text-center mb-4 pt-2">Featured Trips</h2>
         <div class="row mt-25">
             {% for trip in trips %}
-            <div class="col-md-4 d-flex align-items-stretch">
+            <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             <div class="card mb-3 shadow-sm">
             <div id="carousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -61,7 +74,7 @@
         <h2>Courses</h2>
         <div class="row mt-5">
             {% for course in courses %}
-            <div class="col-md-4 d-flex align-items-stretch">
+            <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <div class="card mb-4 shadow-sm">
                     <img class="card-img-top" src="{{ course.image.url }}" alt="{{ course.title }}">
                     <div class="card-body d-flex flex-column">
@@ -77,9 +90,8 @@
                 <a href="{% url 'course_list' %}" class="btn btn-secondary">See All Courses</a>
             </div>
         </div>
-
-
     </section>
+
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -93,12 +105,12 @@
     })();
     </script>
 
-       <!-- Parallax Section -->
+    <!-- Parallax Section -->
     <section class="bgimg-1">
     <h1>Locations</h1>
     <div class="row mt-5">
         {% for location in locations %}
-        <div class="col-md-4 d-flex align-items-stretch">
+        <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             <div class="card mb-4 shadow-sm">
                 <div id="carouselLocation{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -118,11 +130,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
 
 
                             {% endif %}
@@ -150,7 +157,5 @@
         </div>
     </div>
 </section>
-
-
 
 {% endblock %}

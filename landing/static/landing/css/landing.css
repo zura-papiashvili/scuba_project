@@ -78,6 +78,58 @@ html {
     position: relative;
 }
 
+.carousel-item:hover .carousel-caption-title {
+    opacity: 1 !important;
+    animation: fadeDown 2s ease-in-out;
+}
+
+.carousel-caption-title {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+@keyframes fadeDown {
+    0% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.carousel-item:hover .carousel-caption-description {
+    opacity: 1 !important;
+    animation: fadeUp 2s ease-in-out;
+}
+
+.carousel-caption-description {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+@keyframes fadeUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.carousel-item {
+    position: relative;
+}
+
 .carousel-item:hover .carousel-caption-container {
     opacity: 1 !important;
 }
@@ -87,6 +139,28 @@ html {
     transition: opacity 2s ease-in-out;
 }
 
-body {
-    overflow-x: hidden;
+@media (max-width: 768px) {
+    .content-1 {
+        padding: 8vh 5%;
+    }
+
+    .content-1 h1 {
+        font-size: 2.2rem;
+        /* Adjust title size */
+    }
+
+    .content-1 p {
+        font-size: 1.2rem;
+        /* Adjust subtitle size */
+    }
+}
+
+@media (max-width: 480px) {
+    .content-1 h1 {
+        font-size: 1.8rem;
+    }
+
+    .content-1 p {
+        font-size: 1rem;
+    }
 }
