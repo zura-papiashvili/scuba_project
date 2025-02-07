@@ -1,0 +1,40 @@
+<!-- templates/trips/map_popup_content.html -->
+
+<h3>{{ location.name }}</h3>
+<p>{{ location.description }}</p>
+<p>Marine Life:</p>
+
+
+{% if marine_life %}
+    <div class="marine-life-images">
+        {% for item in marine_life %}
+            <p>{{ item.name }}</p>
+            {% if item.image %}
+                <!-- Styled image with a consistent size and border-radius -->
+                <img src="{{ item.image.url }}" class="img-fluid" alt="{{ item.name }}" 
+                    style="min-height: 300px; min-width:300px; object-fit: cover; border-radius: 10px; margin-bottom: 10px;">
+            {% else %}
+                <p>No image available for {{ item.name }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No marine life images available for this location.</p>
+{% endif %}
+
+<!-- Additional styling to ensure popup content looks good on smaller screens -->
+<style>
+    .marine-life-images img {
+        max-width: 100%;
+        height: 100%;
+        border-radius: 10%;
+        margin-bottom: 10px;
+    }
+
+    .marine-life-images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+</style>

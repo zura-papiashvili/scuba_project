@@ -4,6 +4,7 @@ from .views import (
     TripDetailView,
     BookingCreateView,
     EquipmentRentalCreateView,
+    LocationMapView,
 )
 
 
@@ -16,4 +17,5 @@ urlpatterns = [
         EquipmentRentalCreateView.as_view(),
         name="rent_equipment",
     ),
+    path("map/", LocationMapView.as_view(), name="map"),
 ]

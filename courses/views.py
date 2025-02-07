@@ -28,6 +28,4 @@ def enroll(request, course_id):
 def my_courses(request):
     user = request.user
     enrollments = Enrollment.objects.filter(user=user)
-    print("enrollments", enrollments)
-    print("enrollments", enrollments[0].course)
     return render(request, "courses/my_courses.html", {"enrollments": enrollments})

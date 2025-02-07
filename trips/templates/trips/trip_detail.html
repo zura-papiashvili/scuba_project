@@ -1,9 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ trip.name }}</h1>
-    <p><strong>Location:</strong> {{ trip.location }}</p>
-    <p><strong>Date:</strong> {{ trip.date }}</p>
-    <p><strong>Description:</strong> {{ trip.description }}</p>
-    <p><strong>Price:</strong> ${{ trip.price }}</p>
+<br><br><br>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ trip.title }}</h1>
+        </div>
+        <div class="card-body">
+            <div id="tripImagesCarousel" class="carousel slide mb-3" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in trip.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ trip.title }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#tripImagesCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#tripImagesCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <p><strong>Location:</strong> {{ trip.location }}</p>
+            <p><strong>Date:</strong> {{ trip.date }}</p>
+            <p><strong>Description:</strong> {{ trip.description }}</p>
+            <p><strong>Price:</strong> ${{ trip.price }}</p>
+            <p><strong>Duration:</strong> {{ trip.duration }} days</p>
+            <p><strong>Available Spots:</strong> {{ trip.available_spots }}</p>
+            <p><strong>Location:</strong> {{ trip.location.}}</p>
+            
+            
+        
+               
+
+        </div>
+        <div class="card-footer text-right">
+            <a href="#" class="btn btn-primary">Book Now</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

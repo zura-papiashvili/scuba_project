@@ -2,42 +2,41 @@
 
 {% block content %}
 
-<br><br>
-<br>
-
-<h1>Trip List</h1>
-<div class="row">
-    {% for trip in trips %}
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div id="carousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    {% for image in trip.images.all %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img class="d-block w-100" src="{{ image.image.url }}" alt="Slide {{ forloop.counter }}">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Trip List</h1>
+    <div class="row">
+        {% for trip in trips %}
+        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="card shadow-sm fixed-height-card">
+                <div id="carousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in trip.images.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img class="d-block w-100" src="{{ image.image.url }}" alt="Slide {{ forloop.counter }}">
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <a class="carousel-control-prev" href="#carousel{{ forloop.counter }}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel{{ forloop.counter }}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                <a class="carousel-control-prev" href="#carousel{{ forloop.counter }}" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carousel{{ forloop.counter }}" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ trip.title }}</h5>
-                <p class="card-text">{{ trip.description }}</p>
-                <p class="card-text">Price: ${{ trip.price }}</p>
-                <p class="card-text">Duration: {{ trip.duration_days }} days</p>
-                <p class="card-text">Start Date: {{ trip.start_date }}</p>
-
-                <a href="{% url 'trip_detail' trip.id %}" class="btn btn-primary">View Trip</a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ trip.title }}</h5>
+                    <p class="card-text">{{ trip.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{ trip.price }}</p>
+                    <p class="card-text"><strong>Duration:</strong> {{ trip.duration_days }} days</p>
+                    <p class="card-text"><strong>Start Date:</strong> {{ trip.start_date }}</p>
+                    <a href="{% url 'trip_detail' trip.id %}" class="btn btn-primary btn-block mt-auto">View Trip</a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
+
 {% endblock %}
