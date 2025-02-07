@@ -4,7 +4,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.exceptions import ValidationError
 
 
-def compress_and_optimize_image(image, max_width=800, max_height=800, quality=85):
+def compress_and_optimize_image(image, max_width=800, max_height=800):
     """
     Compresses and optimizes the image to reduce file size without significant loss of quality.
     :param image: The uploaded image to compress.
@@ -24,9 +24,7 @@ def compress_and_optimize_image(image, max_width=800, max_height=800, quality=85
     img_io = BytesIO()
 
     # Save the image in a highly compressed format (JPEG)
-    img.save(
-        img_io, format="JPEG", quality=quality, optimize=True
-    )  # JPEG for better compression
+    img.save(img_io, format="JPEG", optimize=True)  # JPEG for better compression
     img_io.seek(0)
 
     # Return as an InMemoryUploadedFile to simulate an uploaded file

@@ -26,6 +26,7 @@ urlpatterns = [
     path("", include("landing.urls")),
     path("set-language/", set_language, name="set_language"),
     path("users/", include("users.urls")),
+    path("courses/", include("courses.urls")),
 ]
 
 # Add static and media file handling for development

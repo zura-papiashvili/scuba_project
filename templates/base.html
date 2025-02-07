@@ -42,6 +42,14 @@
                     <li class="nav-item">
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'about' %}">{% trans "About" %}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'course_list' %}">{% trans "Courses" %}</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'my_courses' %}">{% trans "My Courses" %}</a>
+                        </li>
+                    {% endif %}
 
                     <li class="nav-item">
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
