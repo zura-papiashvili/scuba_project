@@ -1,4 +1,7 @@
 <!-- templates/trips/map_popup_content.html -->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'trips/css/maps.css' %}">
 
 
 {% if marine_life %}
@@ -18,34 +21,4 @@
     <p>No marine life images available for this location.</p>
 {% endif %}
 
-<!-- Responsive Styling -->
-<style>
-    .marine-life-images {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
 
-    .marine-life-images img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10%;
-        margin-bottom: 10px;
-    }
-
-    /* 📱 Mobile-specific styles */
-    @media (max-width: 768px) {
-        .marine-life-images img {
-            min-height: 120px; /* Smaller height on mobile */
-            min-width: 120px;  /* Smaller width on mobile */
-        }
-    }
-
-    @media (max-width: 480px) {
-        .marine-life-images img {
-            min-height: 100px; 
-            min-width: 100px;
-        }
-    }
-</style>

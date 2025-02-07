@@ -172,6 +172,8 @@ if ENVIRONMENT == "DEVELOPMENT":
         BASE_DIR / "static",
         BASE_DIR / "landing/static",
         BASE_DIR / "users/static",
+        BASE_DIR / "courses/static",
+        BASE_DIR / "trips/static",
     ]
     STATIC_ROOT = BASE_DIR / "staticfiles"
 
