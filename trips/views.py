@@ -23,7 +23,6 @@ class TripDetailView(View):
     def get(self, request, trip_id):
         trip = get_object_or_404(DivingTrip, id=trip_id)
         locations = trip.location
-        print(locations)
         return render(request, "trips/trip_detail.html", {"trip": trip})
 
 
