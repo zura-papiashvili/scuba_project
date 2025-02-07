@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+<br>
+
+<h1>Trip List</h1>
+<div class="row">
+    {% for trip in trips %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div id="carousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in trip.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img class="d-block w-100" src="{{ image.image.url }}" alt="Slide {{ forloop.counter }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carousel{{ forloop.counter }}" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel{{ forloop.counter }}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ trip.title }}</h5>
+                <p class="card-text">{{ trip.description }}</p>
+                <p class="card-text">Price: ${{ trip.price }}</p>
+                <p class="card-text">Duration: {{ trip.duration_days }} days</p>
+                <p class="card-text">Start Date: {{ trip.start_date }}</p>
+
+                <a href="{% url 'trip_detail' trip.id %}" class="btn btn-primary">View Trip</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
