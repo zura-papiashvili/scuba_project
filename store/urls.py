@@ -11,7 +11,6 @@ from .views import (
     CreateOrderView,
 )
 
-app_name = "store"
 
 urlpatterns = [
     # Product views

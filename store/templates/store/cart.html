@@ -11,14 +11,14 @@
                     <p>Variation: {{ item.variation.name }}</p>
                 {% endif %}
                 <p>Quantity: 
-                    <form method="post" action="{% url 'store:update_cart' item.id %}">
+                    <form method="post" action="{% url 'update_cart' item.id %}">
                         {% csrf_token %}
                         <input type="number" name="quantity" value="{{ item.quantity }}" min="1" required>
                         <button type="submit">Update</button>
                     </form>
                 </p>
                 <p>Price: ${{ item.product.price }}</p>
-                <form method="post" action="{% url 'store:update_cart' item.id %}">
+                <form method="post" action="{% url 'update_cart' item.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="0">
                     <button type="submit">Remove</button>
@@ -29,7 +29,7 @@
 
     <h2>Total Price: ${{ total_price }}</h2>
 
-    <form method="get" action="{% url 'store:checkout' %}">
+    <form method="get" action="{% url 'checkout' %}">
         <button type="submit">Proceed to Checkout</button>
     </form>
 {% endblock %}

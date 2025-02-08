@@ -44,7 +44,7 @@
                     document.getElementById("card-errors").textContent = result.error.message;
                 } else {
                     if (result.paymentIntent.status === "succeeded") {
-                        window.location.href = "{% url 'store:order_confirmation' order.id %}";
+                        window.location.href = "{% url 'order_confirmation' order.id %}";
                     }
                 }
             });
