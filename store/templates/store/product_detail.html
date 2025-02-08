@@ -51,7 +51,10 @@
                     {% csrf_token %}
                     <select name="variation_id" class="form-select mb-3">
                         {% for variation in variations %}
-                            <option value="{{ variation.id }}">{{ variation.name }}</option>
+                            <option value="{{ variation.id }}">
+                                {{ variation.color }} - {{ variation.size }}{% if variation.thickness %} - {{ variation.thickness }}{% endif %} - ${{ variation.price }} - Stock: {{ variation.stock }} 
+                            </option> 
+
                         {% endfor %}
                     </select>
                     <button type="submit" class="btn btn-primary w-100">

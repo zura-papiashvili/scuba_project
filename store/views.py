@@ -1,10 +1,11 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from .models import Product, Variation, CartItem, Order, OrderItem, Payment
 from django.conf import settings
 import stripe
+
 
 stripe.api_key = (
     settings.STRIPE_SECRET_KEY
@@ -28,6 +29,7 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.object
         context["variations"] = product.variations.all()
+        print(context["variations"])
         return context
 
 
@@ -50,7 +52,7 @@ class AddToCartView(LoginRequiredMixin, View):
             cart_item.quantity += 1
             cart_item.save()
 
-        return redirect("store:cart")
+        return redirect("cart")
 
 
 # Cart view
@@ -81,7 +83,7 @@ class UpdateCartView(LoginRequiredMixin, View):
         else:
             cart_item.delete()
 
-        return redirect("store:cart")
+        return redirect("cart")
 
 
 # Checkout view
@@ -142,4 +144,4 @@ class CreateOrderView(LoginRequiredMixin, View):
 
         # Mark cart items as ordered and clear the cart
         cart_items.delete()
-        return redirect("store:order_confirmation", order_id=order.id)
+        return redirect("order_confirmation", order_id=order.id)

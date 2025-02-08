@@ -97,6 +97,9 @@ class ProductImage(models.Model):
 
 
 class CartItem(models.Model):
+    user = models.ForeignKey(
+        User, related_name="cart_items", on_delete=models.CASCADE, null=True
+    )
     product = models.ForeignKey(
         Product, related_name="cart_items", on_delete=models.CASCADE
     )
