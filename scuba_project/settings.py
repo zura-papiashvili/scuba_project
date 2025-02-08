@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "landing",
     "courses",
     "trips",
+    "store",
 ]
 
 MIDDLEWARE = [
@@ -174,6 +175,7 @@ if ENVIRONMENT == "DEVELOPMENT":
         BASE_DIR / "users/static",
         BASE_DIR / "courses/static",
         BASE_DIR / "trips/static",
+        BASE_DIR / "store/static",
     ]
     STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -236,3 +238,8 @@ AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
 AWS_S3_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_S3_FILE_OVERWRITE = False
+
+
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = config("STRIPE_TEST_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = config("STRIPE_TEST_SECRET_KEY")
