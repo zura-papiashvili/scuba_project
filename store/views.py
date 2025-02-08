@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from .models import Product, Variation, CartItem, Order, OrderItem, Payment
@@ -87,15 +87,57 @@ class UpdateCartView(LoginRequiredMixin, View):
 
 
 # Checkout view
-class CheckoutView(LoginRequiredMixin, View):
-    def get(self, request):
+class CheckoutView(TemplateView):
+    template_name = "store/checkout.html"
+
+    def get(self, request, *args, **kwargs):
         cart_items = CartItem.objects.filter(user=request.user)
         total_price = sum(item.product.price * item.quantity for item in cart_items)
-        return render(
-            request,
-            "store/checkout.html",
-            {"cart_items": cart_items, "total_price": total_price},
+        return self.render_to_response(
+            {
+                "cart_items": cart_items,
+                "total_price": total_price,
+            }
         )
+
+    def post(self, request, *args, **kwargs):
+        cart_items = CartItem.objects.filter(user=request.user)
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        payment_method = request.POST.get("payment_method")
+
+        # Create the order first (with status 'pending' initially)
+        order = Order.objects.create(
+            user=request.user,
+            total_price=total_price,
+            payment_method=payment_method,
+            status="pending",
+        )
+
+        # Add cart items to the order
+        for item in cart_items:
+            order.items.create(
+                product=item.product, quantity=item.quantity, price=item.product.price
+            )
+
+        if payment_method == "stripe":
+            # Create payment intent with Stripe
+            intent = stripe.PaymentIntent.create(
+                amount=int(total_price * 100),  # in cents
+                currency="usd",
+                metadata={"order_id": order.id},
+            )
+            client_secret = intent.client_secret
+            return self.render_to_response(
+                {
+                    "cart_items": cart_items,
+                    "total_price": total_price,
+                    "client_secret": client_secret,
+                    "order_id": order.id,
+                }
+            )
+        else:
+            # Redirect to order confirmation if paying later
+            return redirect("order_confirmation", pk=order.id)
 
 
 # Stripe payment view
@@ -115,13 +157,15 @@ class CreatePaymentView(LoginRequiredMixin, View):
 
 
 # Order confirmation view
-class OrderConfirmationView(LoginRequiredMixin, DetailView):
+class OrderConfirmationView(DetailView):
     model = Order
     template_name = "store/order_confirmation.html"
     context_object_name = "order"
 
-    def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["order"] = self.object
+        return context
 
 
 # Create order view
