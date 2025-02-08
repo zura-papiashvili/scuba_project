@@ -41,53 +41,35 @@
 
         <script src="https://js.stripe.com/v3/"></script>
         <script>
-            // Stripe setup for card payment
             var stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
             var elements = stripe.elements();
             var card = elements.create("card");
             card.mount("#card-element");
 
-            // Show the payment method based on user selection
-            function togglePaymentMethod() {
-                var paymentMethod = document.getElementById("payment-option").value;
-                if (paymentMethod === "stripe") {
-                    document.getElementById("stripe-payment").style.display = "block";
-                    document.getElementById("cash-payment").style.display = "none";
-                } else {
-                    document.getElementById("stripe-payment").style.display = "none";
-                    document.getElementById("cash-payment").style.display = "block";
-                }
-            }
-
-            // Form submission for Stripe payment
-            var form = document.querySelector("form");
+            var form = document.getElementById("payment-form");
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
 
-                var paymentMethod = document.getElementById("payment-option").value;
-
-                if (paymentMethod === "stripe") {
-                    stripe.confirmCardPayment("{{ client_secret }}", {
-                        payment_method: {
-                            card: card,
-                            billing_details: {
-                                name: "{{ user.username }}",
-                            },
+                stripe.confirmCardPayment("{{ client_secret }}", {
+                    payment_method: {
+                        card: card,
+                        billing_details: {
+                            name: "{{ user.username }}",
                         },
-                    }).then(function(result) {
-                        if (result.error) {
-                            document.getElementById("card-errors").textContent = result.error.message;
-                        } else {
-                            if (result.paymentIntent.status === "succeeded") {
-                                window.location.href = "{% url 'order_confirmation' order.id %}";
-                            }
+                    },
+                }).then(function(result) {
+                    if (result.error) {
+                        document.getElementById("card-errors").textContent = result.error.message;
+                    } else {
+                        if (result.paymentIntent.status === "succeeded") {
+                            // Now passing order.id correctly
+                            window.location.href = "{% url 'order_confirmation' order_id=order.id %}";
                         }
-                    });
-                } else {
-                    // Handle cash on delivery logic here
-                    window.location.href = "{% url 'order_confirmation' order.id %}";
-                }
+                    }
+                });
             });
-        </script>
+</script>
+
+
     </div>
 {% endblock %}

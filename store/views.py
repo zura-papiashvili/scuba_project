@@ -89,6 +89,7 @@ class UpdateCartView(LoginRequiredMixin, View):
 # Checkout view
 class CheckoutView(TemplateView):
     template_name = "store/checkout.html"
+    STRIPE_PUBLISHABLE_KEY = settings.STRIPE_PUBLISHABLE_KEY
 
     def get(self, request, *args, **kwargs):
         cart_items = CartItem.objects.filter(user=request.user)
@@ -97,6 +98,7 @@ class CheckoutView(TemplateView):
             {
                 "cart_items": cart_items,
                 "total_price": total_price,
+                "STRIPE_PUBLISHABLE_KEY": self.STRIPE_PUBLISHABLE_KEY,
             }
         )
 
@@ -132,7 +134,7 @@ class CheckoutView(TemplateView):
                     "cart_items": cart_items,
                     "total_price": total_price,
                     "client_secret": client_secret,
-                    "order_id": order.id,
+                    "order_id": order.id,  # Ensure the order.id is passed here
                 }
             )
         else:
