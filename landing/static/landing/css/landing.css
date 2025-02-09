@@ -27,7 +27,14 @@
     background-image: url('/static/landing/images/cover.webp');
     min-height: 100vh;
     /* Full viewport height */
+    transition: background-image 1s ease-in-out;
 }
+
+/* Dark mode background */
+.dark-mode .bgimg-1 {
+    background-image: url('/static/landing/images/cover-dark.webp');
+}
+
 
 .bgimg-2 {
     background-image: url('/static/landing/images/under-cover.avif');
