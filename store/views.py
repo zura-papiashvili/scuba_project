@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .models import Product, Variation, CartItem, Order, OrderItem, Payment
 from django.conf import settings
 import stripe
+import json
 
 
 stripe.api_key = (
@@ -103,6 +104,7 @@ class CheckoutView(TemplateView):
         )
 
     def post(self, request, *args, **kwargs):
+
         cart_items = CartItem.objects.filter(user=request.user)
         total_price = sum(item.product.price * item.quantity for item in cart_items)
         payment_method = request.POST.get("payment_method")
@@ -110,16 +112,21 @@ class CheckoutView(TemplateView):
         # Create the order first (with status 'pending' initially)
         order = Order.objects.create(
             user=request.user,
-            total_price=total_price,
-            payment_method=payment_method,
             status="pending",
         )
 
         # Add cart items to the order
         for item in cart_items:
-            order.items.create(
-                product=item.product, quantity=item.quantity, price=item.product.price
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                variation=item.variation,
+                quantity=item.quantity,
+                price=item.product.price,
             )
+
+        # Clear the cart after creating the order
+        cart_items.delete()
 
         if payment_method == "stripe":
             # Create payment intent with Stripe
@@ -191,3 +198,13 @@ class CreateOrderView(LoginRequiredMixin, View):
         # Mark cart items as ordered and clear the cart
         cart_items.delete()
         return redirect("order_confirmation", order_id=order.id)
+
+
+# myorders view
+class MyOrdersView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = "store/myorders.html"
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)

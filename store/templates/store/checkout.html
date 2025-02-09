@@ -15,7 +15,7 @@
         </div>
 
         <h2>Payment Options</h2>
-        <form method="post">
+        <form method="post" id="payment-form" action="{% url 'checkout' %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="payment-option">Choose a payment method:</label>
@@ -36,40 +36,97 @@
                 <p>You can pay for your order in cash when the items are delivered to you.</p>
             </div>
 
-            <button type="submit" id="submit" class="btn btn-primary mt-3">Proceed</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary mt-3">Proceed</button>
         </form>
 
         <script src="https://js.stripe.com/v3/"></script>
-        <script>
-            var stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
-            var elements = stripe.elements();
-            var card = elements.create("card");
-            card.mount("#card-element");
+      <script>
+    function togglePaymentMethod() {
+        var paymentOption = document.getElementById("payment-option").value;
+        if (paymentOption === "stripe") {
+            document.getElementById("stripe-payment").style.display = "block";
+            document.getElementById("cash-payment").style.display = "none";
+        } else {
+            document.getElementById("stripe-payment").style.display = "none";
+            document.getElementById("cash-payment").style.display = "block";
+        }
+    }
 
-            var form = document.getElementById("payment-form");
-            form.addEventListener("submit", function(event) {
-                event.preventDefault();
+    const stripe = Stripe('pk_test_51QnrsRKtLkF7GLy08vZxw1ftlikNpekK4iLaEOyoThvieYXIG6yflgfdYCMfoXadR6bvv6VBJLJI8MThoaB5l5AI00F4WO8yxG'); // Replace with your publishable key
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element'); // Mount the card element to the DOM
 
-                stripe.confirmCardPayment("{{ client_secret }}", {
-                    payment_method: {
-                        card: card,
-                        billing_details: {
-                            name: "{{ user.username }}",
-                        },
-                    },
-                }).then(function(result) {
-                    if (result.error) {
-                        document.getElementById("card-errors").textContent = result.error.message;
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const paymentOption = document.getElementById("payment-option").value;
+
+        // Prepare the order details (cart items, total price)
+        const orderDetails = {
+            cart_items: [],
+            total_price: {{ total_price }},
+        };
+
+        {% for item in cart_items %}
+            orderDetails.cart_items.push({
+                product_name: "{{ item.product.name }}",
+                quantity: "{{ item.quantity }}",
+                price: "{{ item.product.price }}"
+            });
+        {% endfor %}
+
+        if (paymentOption === "stripe") {
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            });
+
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                const paymentMethodId = paymentMethod.id;
+                const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+                const formData = new FormData();
+                formData.append('payment_method', paymentMethodId);
+                formData.append('order_details', JSON.stringify(orderDetails));  // Add the order details
+                formData.append('csrfmiddlewaretoken', csrfToken);
+
+                // Send payment method and order details to server
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.success_url; // Redirect after successful payment
                     } else {
-                        if (result.paymentIntent.status === "succeeded") {
-                            // Now passing order.id correctly
-                            window.location.href = "{% url 'order_confirmation' order_id=order.id %}";
-                        }
+                        alert(data.error);
                     }
                 });
+            }
+        } else {
+            // Cash on delivery: send order details with form submission
+            const formData = new FormData(form);
+            formData.append('order_details', JSON.stringify(orderDetails)); // Add the order details for cash payment
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.success_url; // Redirect after successful order
+                } else {
+                    alert(data.error);
+                }
             });
+        }
+    });
 </script>
-
 
     </div>
 {% endblock %}

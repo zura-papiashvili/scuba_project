@@ -9,6 +9,7 @@ from .views import (
     CreatePaymentView,
     OrderConfirmationView,
     CreateOrderView,
+    MyOrdersView,
 )
 
 
@@ -31,4 +32,5 @@ urlpatterns = [
         name="order_confirmation",
     ),
     path("create_order/", CreateOrderView.as_view(), name="create_order"),
+    path("my_orders/", MyOrdersView.as_view(), name="my_orders"),
 ]
