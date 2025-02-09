@@ -57,23 +57,20 @@
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'product_list' %}">{% trans "Store" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'cart' %}"> <i class="fas fa-shopping-cart"></i></a>
-                    
-                    </li>
- 
-
-                    <li class="nav-item">
                         <a class="nav-link text-white px-3 py-2 rounded custom-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
                     </li>
                     <li class="nav-item">
-                       <div class="dropdown">
+                        <a class="nav-link text-white custom-link" href="{% url 'cart' %}"> <i class="fas fa-shopping-cart"></i></a>
+                    </li>
+                    <li class="nav-item">
+                       <div class="dropdown custom-link">
                             <button class="btn btn-info dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">🌍</button>
                             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                             <li>
                                 <form action="{% url 'set_language' %}" method="post" style="display: inline;">
                                     {% csrf_token %}
                                     <input type="hidden" name="language" value="en">
-                                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 5px 10px;">
+                                    <button type="submit" class="dropdown-item custom-link" style="background: none; border: none; padding: 5px 10px;">
                                         🇺🇸 {% trans "English" %}
                                     </button>
                                 </form>
@@ -82,7 +79,7 @@
                                 <form action="{% url 'set_language' %}" method="post" style="display: inline;">
                                     {% csrf_token %}
                                     <input type="hidden" name="language" value="es">
-                                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 5px 10px;">
+                                    <button type="submit" class="dropdown-item custom-link" style="background: none; border: none; padding: 5px 10px;">
                                         🇪🇸 {% trans "Spanish" %}
                                     </button>
                                 </form>
@@ -93,7 +90,7 @@
 
                     <!-- Login / Logout button based on authentication status -->
                     {% if user.is_authenticated %}
-                         <li class="nav-item dropdown">
+                         <li class="nav-item dropdown custom-link">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <!-- Display profile picture if available -->
                             {% if user.profile_picture %}
@@ -104,10 +101,10 @@
                             {{ user.first_name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'my_orders' %}">{% trans "My Orders" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'my_courses' %}">{% trans "My Courses" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item custom-link" href="{% url 'profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item custom-link" href="{% url 'my_orders' %}">{% trans "My Orders" %}</a></li>
+                            <li><a class="dropdown-item custom-link" href="{% url 'my_courses' %}">{% trans "My Courses" %}</a></li>
+                            <li><a class="dropdown-item custom-link" href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                     </li>
 
