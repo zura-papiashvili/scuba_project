@@ -57,14 +57,14 @@
 
                         {% endfor %}
                     </select>
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-info w-100">
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
                 </form>
             {% else %}
                 <form method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-info w-100">
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
                 </form>

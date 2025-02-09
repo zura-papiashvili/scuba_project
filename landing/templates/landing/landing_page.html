@@ -56,21 +56,21 @@
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ trip.title }}</h5>
                 <p class="card-text">{{ trip.description }}</p>
-                <a href="{% url 'trip_detail' trip.id %}" class="btn btn-info btn-block mt-auto">View Trip</a>
+                <a href="{% url 'trip_detail' trip.id %}" class="btn btn-info btn-lg btn-block mt-auto">View Trip</a>
             </div>
             </div>
             </div>
             {% endfor %}
 
             <div class="col-12 text-center mt-2">
-                <a href="{% url 'trip_list' %}" class="btn btn-info mb-5">See All Trips</a>
+                <a href="{% url 'trip_list' %}" class="btn btn-info btn-lg mb-5">See All Trips</a>
             </div>
         </div>
     </section>
 
     <!-- Content Sections Below -->
     <section class="bgimg-3">
-        <h2>Courses</h2>
+        <h2 class="text-center">Courses</h2>
         <div class="row mt-5">
             {% for course in courses %}
             <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
@@ -79,14 +79,14 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ course.title }}</h5>
                         <p class="card-text">{{ course.description }}</p>
-                        <a href="{% url 'course_detail' course.id %}" class="btn btn-info mt-auto">View Course</a>
+                        <a href="{% url 'course_detail' course.id %}" class="btn btn-lg btn-info mt-auto">View Course</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
 
             <div class="col-12 text-center mt-2 mb-5">
-                <a href="{% url 'course_list' %}" class="btn btn-info">See All Courses</a>
+                <a href="{% url 'course_list' %}" class="btn btn-info btn-lg">See All Courses</a>
             </div>
         </div>  
     </section>
@@ -106,7 +106,7 @@ s0.parentNode.insertBefore(s1,s0);
 
     <!-- Parallax Section -->
     <section class="bgimg-1">
-    <h1>Locations</h1>
+    <h1 style="text-align: center;">Locations</h1>
     <div class="row mt-5">
         {% for location in locations %}
         <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
@@ -146,13 +146,13 @@ s0.parentNode.insertBefore(s1,s0);
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ location.name }}</h5>
                     <p class="card-text">{{ location.description }}</p>
-                    <a href="{% url 'map' %}" class="btn btn-info mt-auto">Learn More</a>
+                    <a href="{% url 'map' %}" class="btn btn-info mt-auto btn-lg">Learn More</a>
                 </div>
             </div>
         </div>
         {% endfor %}
         <div class="col-12 text-center mt-2 mb-5">
-            <a href="{% url 'map' %}" class="btn btn-info">See All Locations On map</a>
+            <a href="{% url 'map' %}" class="btn btn-info btn-lg">See All Locations On map</a>
         </div>
     </div>
 </section>
