@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        {% for image in processed_images %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div id="carousel{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/input_0.png' }}" class="d-block w-100" alt="Processed Image 1" data-bs-toggle="modal" data-bs-target="#imageModal{{ forloop.counter }}">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/ace.png' }}" class="d-block w-100" alt="Processed Image 2" data-bs-toggle="modal" data-bs-target="#imageModal{{ forloop.counter }}">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/he.png' }}" class="d-block w-100" alt="Processed Image 3" data-bs-toggle="modal" data-bs-target="#imageModal{{ forloop.counter }}">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel{{ forloop.counter }}" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel{{ forloop.counter }}" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </div>
+
+                <!-- Modal for zooming with carousel -->
+                <div class="modal fade" id="imageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="imageModalLabel{{ forloop.counter }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel{{ forloop.counter }}">{{ image.photo_name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="carouselModal{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/input_0.png' }}" class="d-block w-100" alt="Processed Image 1">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/ace.png' }}" class="d-block w-100" alt="Processed Image 2">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{ 'https://ipolcore.ipol.im'|add:image.work_url|add:'/he.png' }}" class="d-block w-100" alt="Processed Image 3">
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselModal{{ forloop.counter }}" role="button" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselModal{{ forloop.counter }}" role="button" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ image.photo_name }}</h5>
+                    <p class="card-text">{{ image.user.first_name }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

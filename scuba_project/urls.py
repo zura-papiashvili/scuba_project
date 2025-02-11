@@ -29,6 +29,7 @@ urlpatterns = [
     path("courses/", include("courses.urls")),
     path("trips/", include("trips.urls")),
     path("store/", include("store.urls")),
+    path("photoshop/", include("photoshop.urls")),
 ]
 
 # Add static and media file handling for development

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br> <br> <br>
+<br> <br> <br>
+<h1>Upload Image for Processing</h1>
+
+{% if user.is_authenticated %}
+<!-- Form to upload image and parameters -->
+<form action="{% url 'process_image' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="file">Choose Image:</label>
+    <input type="file" name="file" required><br><br>
+
+    <label for="alpha">Alpha (1-8):</label>
+    <input type="range" name="alpha" min="1" max="8" value="5" step="1">
+    <span id="alphaValue">5</span><br><br>
+
+    <label for="omega">Omega (choose: 1, 1/r, G):</label>
+    <select name="omega">
+        <option value="1">1</option>
+        <option value="1/r" selected>1/r</option>
+        <option value="G">G</option>
+    </select><br><br>
+
+    <label for="gaussianstd">Gaussian Standard Deviation (20-100):</label>
+    <input type="range" name="gaussianstd" min="20" max="100" value="30" step="1">
+    <span id="gaussianstdValue">30</span><br><br>
+
+    <label for="method">Method (choose: interp, poly):</label>
+    <select name="method">
+        <option value="interp" selected>interp</option>
+        <option value="poly">poly</option>
+    </select><br><br>
+
+    <label for="degree">Degree (3-11):</label>
+    <input type="range" name="degree" min="3" max="11" value="6" step="1">
+    <span id="degreeValue">6</span><br><br>
+
+    <button type="submit">Upload and Process Image</button>
+</form>
+
+{% else %}
+<p>You need to <a href="{% url 'login' %}">log in</a> to upload and process images.</p>
+{% endif %}
+
+{% if status %}
+    <h2>Status: {{ status }}</h2>
+    <h3>Processed Images:</h3>
+    <div>
+        {% for url in image_urls %}
+            <img src="{{ url }}" alt="Processed Image" style="max-width: 500px; margin: 10px;">
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script>
+    // Update the displayed value for the sliders
+    const alphaSlider = document.querySelector('input[name="alpha"]');
+    const alphaValue = document.getElementById("alphaValue");
+    alphaSlider.addEventListener('input', function() {
+        alphaValue.textContent = alphaSlider.value;
+    });
+
+    const gaussianstdSlider = document.querySelector('input[name="gaussianstd"]');
+    const gaussianstdValue = document.getElementById("gaussianstdValue");
+    gaussianstdSlider.addEventListener('input', function() {
+        gaussianstdValue.textContent = gaussianstdSlider.value;
+    });
+
+    const degreeSlider = document.querySelector('input[name="degree"]');
+    const degreeValue = document.getElementById("degreeValue");
+    degreeSlider.addEventListener('input', function() {
+        degreeValue.textContent = degreeSlider.value;
+    });
+</script>
+{% endblock %}

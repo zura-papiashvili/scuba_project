@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     "courses",
     "trips",
     "store",
+    "photoshop",
 ]
-
+LOGIN_REDIRECT_URL = "/"
 MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.locale.LocaleMiddleware",
