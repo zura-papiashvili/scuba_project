@@ -26,7 +26,7 @@
   "outputDirectory": "staticfiles",
   "functions": {
     "photoshop/views.py": {
-      "maxDuration": 60
+      "maxDuration": 59
     }
   }
 }
