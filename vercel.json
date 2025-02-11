@@ -1,27 +1,32 @@
 {
-"version": 2,
-"builds": [
-  {
-    "src": "scuba_project/wsgi.py",
-    "use": "@vercel/python",
-    "config": {
-      "maxLambdaSize": "15mb",
-      "runtime": "python3.9"
-    }
-  },
-  {
-    "src": "vercel-build.sh",
+  "version": 2,
+  "builds": [
+    {
+      "src": "scuba_project/wsgi.py",
       "use": "@vercel/python",
-    "config": {
-      "distDir": "staticfiles"
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
+    },
+    {
+      "src": "vercel-build.sh",
+      "use": "@vercel/python",
+      "config": {
+        "distDir": "staticfiles"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "scuba_project/wsgi.py"
+    }
+  ],
+  "outputDirectory": "staticfiles",
+  "functions": {
+    "photoshop/views.py": {
+      "maxDuration": 60
     }
   }
-],
-"routes": [
-  {
-    "src": "/(.*)",
-    "dest": "scuba_project/wsgi.py"
-  }
-],
-"outputDirectory": "staticfiles"
 }
