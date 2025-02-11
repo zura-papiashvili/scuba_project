@@ -148,7 +148,7 @@ def user_processed_images(request):
 
     # Retrieve all processed images for the user
     processed_images = ProcessedImage.objects.filter(user=user)
-
+    print("test")
     # Render the template with the processed images
     return render(
         request,
