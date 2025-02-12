@@ -2,6 +2,11 @@
   "version": 2,
   "builds": [
     {
+      "functions": {
+        "photoshop/**/*": {
+          "maxDuration": 5
+        }
+      },
       "src": "scuba_project/wsgi.py",
       "use": "@vercel/python",
       "config": {
