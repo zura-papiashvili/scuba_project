@@ -28,6 +28,9 @@
     min-height: 100vh;
     /* Full viewport height */
     transition: background-image 1s ease-in-out;
+
+    margin-top: -75px;
+
 }
 
 /* Dark mode background */
@@ -170,4 +173,17 @@ body {
     .content-1 p {
         font-size: 1rem;
     }
+}
+
+#draggable-image {
+    width: 200px;
+    position: fixed;
+    /* Keeps it above other elements */
+    top: 50px;
+    left: 50px;
+    cursor: grab;
+    z-index: 9999;
+    /* Ensures it's always on top */
+    user-select: none;
+    /* Prevents accidental text selection */
 }

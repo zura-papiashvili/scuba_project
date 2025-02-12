@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.home, name="home"),
+    path("", views.home, name="photoshop_home"),
     path("process_image/", views.process_image, name="process_image"),
     path(
         "upload-processed-image/",

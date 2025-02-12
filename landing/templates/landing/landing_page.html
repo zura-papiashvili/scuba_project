@@ -5,10 +5,19 @@
 {% block title %}Welcome to Our Website{% endblock %}
 
 {% block content %}
+<img id="draggable-image" src="{% static 'landing/images/button.png' %}" data-url="{% url 'photoshop_home' %}" style="position: absolute; cursor: grab;">
+
+
+<style>
+   
+</style>
     <link rel="stylesheet" href="{% static 'landing/css/landing.css' %}">
+    <script src="{% static 'landing/js/landing.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <!-- Parallax Section -->
     <section class="bgimg-1">
+        <div class="container mt-5">
+</div>
        <div class="content-1" 
     style="text-align: center; color: white; padding: 10vh 5%; 
            background: rgba(0, 0, 0, 0.5);">

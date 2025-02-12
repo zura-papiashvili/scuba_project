@@ -1,0 +1,13 @@
+<!-- templates/rate_limit_error.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<br> <br> <br>
+<div class="container mt-5">
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Too Many Requests</h4>
+        <p>Sorry, You can process one image  per hour.</p>
+        <a href="{% url 'user_processed_images' %}" class="btn btn-primary">View Processed Images</a>
+    </div>
+</div>
+{% endblock %}

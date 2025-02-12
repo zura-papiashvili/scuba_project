@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .models import ProcessedImage
+from django_ratelimit.decorators import ratelimit
 
 
 API_KEY = os.getenv("API_KEY")
@@ -19,7 +20,11 @@ def home(request):
 
 @csrf_exempt
 @login_required
+@ratelimit(key="user", rate="1/h", block=False)
 def process_image(request):
+
+    if getattr(request, "limited", False):
+        return render(request, "photoshop/rate_limit_error.html")
     # Extracting the uploaded file and parameters from the request
     uploaded_file = request.FILES.get("file")
     if not uploaded_file:
@@ -143,6 +148,7 @@ def create_processed_image(request):
 
 @login_required
 def user_processed_images(request):
+
     # Get the current user
     user = request.user
 
