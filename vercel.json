@@ -3,8 +3,8 @@
   "builds": [
     {
       "functions": {
-        "photoshop/**/*": {
-          "maxDuration": 5
+        "manage.py": {
+          "maxDuration": 60
         }
       },
       "src": "scuba_project/wsgi.py",
