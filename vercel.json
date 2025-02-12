@@ -23,10 +23,5 @@
       "dest": "scuba_project/wsgi.py"
     }
   ],
-  "outputDirectory": "staticfiles",
-  "functions": {
-    "photoshop/views.py": {
-      "maxDuration": 60
-    }
-  }
+  "outputDirectory": "staticfiles"
 }
