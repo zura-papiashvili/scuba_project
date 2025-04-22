@@ -8,4 +8,5 @@ urlpatterns = [
     path("about/", views.AboutView.as_view(), name="about"),
     path("contact/", views.contact, name="contact"),
     path("keep-warm/", views.keep_warm, name="keep_warm"),
+    path("voices/", views.tts_view, name="tts_view"),
 ]

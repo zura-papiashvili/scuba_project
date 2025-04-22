@@ -83,3 +83,59 @@ def contact(request):
 def keep_warm(request):
     """Simple endpoint to keep the serverless function warm"""
     return JsonResponse({"status": "OK", "message": "Server is warm!"})
+
+
+import os
+import asyncio
+import edge_tts
+from django.core.files.storage import default_storage
+from django.http import JsonResponse
+from django.shortcuts import render
+
+
+async def generate_voice(text, voice, filename):
+    """Generate TTS audio and save it to a file"""
+    # Initialize the Communicate object
+    communicate = edge_tts.Communicate(text, voice)
+
+    try:
+        # Open a file for saving the audio
+        with default_storage.open(filename, "wb") as f:
+            # Stream the audio content and write it to the file
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    f.write(chunk["data"])
+    except Exception as e:
+        raise Exception(f"Error while writing to file: {str(e)}")
+
+    return filename
+
+
+async def tts_view(request):
+    if request.method == "POST":
+        # Get the text and voice from the POST data
+        text = request.POST.get("text")
+        voice = request.POST.get("voice")
+
+        # Ensure text and voice are provided
+        if not text or not voice:
+            return JsonResponse({"error": "Missing text or voice"}, status=400)
+
+        try:
+            # Create a unique filename
+            filename = f"media/{voice}_{text[:5]}.mp3"
+
+            # Generate speech and save it asynchronously
+            file_path = await generate_voice(text, voice, filename)
+
+            # Assuming the media is hosted via S3
+            audio_url = f"https://zpscuba.s3.us-west-1.amazonaws.com/media/{file_path}"
+            return JsonResponse({"audio_url": audio_url})
+
+        except Exception as e:
+            return JsonResponse(
+                {"error": f"Failed to generate audio: {str(e)}"}, status=500
+            )
+
+    # If GET request, render the form
+    return render(request, "landing/tts.html")
