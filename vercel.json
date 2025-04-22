@@ -24,5 +24,8 @@
       "dest": "scuba_project/wsgi.py"
     }
   ],
-  "outputDirectory": "staticfiles"
+  "outputDirectory": "staticfiles",
+  "regions": [
+    "sfo1"
+  ]
 }
